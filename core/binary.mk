@@ -1238,7 +1238,7 @@ else ifdef LOCAL_USE_VNDK
         # with vendor_available: false
         my_link_type := native:vendor
         my_warn_types :=
-        my_allowed_types := native:vendor native:vndk native:platform_vndk
+        my_allowed_types := native:vendor native:vndk native:platform_vndk native:vndk_private
     endif
 else ifneq ($(filter $(TARGET_RECOVERY_OUT)/%,$(call get_non_asan_path,$(LOCAL_MODULE_PATH))),)
 my_link_type := native:recovery
