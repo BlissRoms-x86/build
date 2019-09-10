@@ -1133,11 +1133,12 @@ class FSConfigGen(BaseGenerator):
         path = fs_config.path
 
         if self._partition == 'system':
-            if self._all_partitions:
-                for skip_partition in self._all_partitions.split(','):
-                    if path.startswith(skip_partition) or path.startswith(
-                            'system/' + skip_partition):
-                        return False
+            if not self._all_partitions:
+                return True
+            for skip_partition in self._all_partitions.split(','):
+                if path.startswith(skip_partition) or path.startswith(
+                        'system/' + skip_partition):
+                    return False
             return True
         else:
             if path.startswith(
