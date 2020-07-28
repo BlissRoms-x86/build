@@ -300,6 +300,9 @@ if  [ $ipts == "y" ];then
 	read ipts_var
 	bash vendor/surface-drivers/autopatch.sh $ipts_var
 	export IPTS_PATCHES=true
+	cd kernel
+	git checkout -b k$ipts_var-ipts
+	cd ..
 fi
 
 # echo "Removing: device/*/sepolicy/common/private/genfs_contexts"
