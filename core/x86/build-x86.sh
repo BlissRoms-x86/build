@@ -298,7 +298,7 @@ if  [ $ipts == "y" ];then
 	echo "Enter the kernel version you want to patch for"
 	echo "(4.19 or 5.7)"	
 	read ipts_var
-	apply-ipts-patches $ipts_var
+	bash vendor/surface-drivers/autopatch.sh $ipts_var
 	export IPTS_PATCHES=true
 fi
 
