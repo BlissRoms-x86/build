@@ -18,6 +18,7 @@ sync="n"
 patch="n"
 proprietary="n"
 romBranch=""
+ipts="n"
 
 if [ -z "$USER" ];then
         export USER="$(id -un)"
@@ -41,6 +42,7 @@ do
       echo "options: -s | --sync: Repo syncs the rom (clears out patches), then reapplies patches to needed repos"
       echo "		 -p | --patch: Run the patches only"
       echo "		 -r | --proprietary: build needed items from proprietary vendor (non-public)"
+      echo "		 -i | --ipts: Builds with patching the kernel with IPTS drivers for Surface devices"
       echo "buildVariants: "
       echo "android_x86-user, android_x86-userdebug, android_x86-eng,  "
       echo "android_x86_64-user, android_x86_64-userdebug, android_x86_64-eng"
@@ -67,6 +69,10 @@ do
       proprietary="y";
       echo "proprietary selected."
       ;;
+    -i | --ipts)
+	  ipts="y";
+	  echo "Enable IPTS patchset"
+	  ;;
   # ...
 
   # Special cases
@@ -284,6 +290,16 @@ fi
 if  [ $patch == "y" ];then
 	echo "Let the patching begin"
 	bash "$rompath/vendor/x86/utils/autopatch.sh"
+fi
+
+if  [ $ipts == "y" ];then
+	echo "Patching kernel with IPTS patches. "
+	echo ""
+	echo "Enter the kernel version you want to patch for"
+	echo "(4.19 or 5.7)"	
+	read ipts_var
+	apply-ipts-patches $ipts_var
+	export IPTS_PATCHES=true
 fi
 
 # echo "Removing: device/*/sepolicy/common/private/genfs_contexts"
