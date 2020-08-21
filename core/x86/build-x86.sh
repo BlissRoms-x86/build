@@ -322,6 +322,10 @@ buildProprietary() {
 	mka update_engine_applier
 	echo "Building proprietary tools... part 2... This may take a while..."
 	mka proprietary
+	echo "Building proprietary tools, part 3... Gearlock Recovery Patches..."
+	echo "This won't take too long..."
+	echo ""
+	apply-gearlock-patches
 }
 
 buildVariant() {
