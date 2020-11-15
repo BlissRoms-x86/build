@@ -315,23 +315,47 @@ echo "Setting up build env for: $1"
 	. build/envsetup.sh
 fi
 
+grabFossProprietary() {
+	
+	echo "Building proprietary tools, part 2... FOSS Apps..."
+	echo "This won't take too long..."
+	echo ""
+	# Now we also download our fdroid apps.
+	cd vendor/foss
+	bash update.sh
+	cd ..
+	cd ..
+
+}
+
 buildProprietary() {
+	# Start with grabbing our Chrome OS bits.
 	echo "Setting up Proprietary environment for: $1"
 	lunch $bliss_variant
-	echo "Building proprietary tools, part 1... This won't take too long..."
-	mka update_engine_applier
-	echo "Building proprietary tools... part 2... This may take a while..."
-	mka proprietary
-	echo "Building proprietary tools, part 3... Gearlock Recovery Patches..."
+	echo "Building proprietary tools, part 1... Chrome OS files..."
+	echo "Thanks for your patience..."
+	echo ""
+	cd vendor/google/chromeos-x86
+	./extract-files.sh
+	cd ..
+	cd ..
+	cd ..
+	echo "Building proprietary tools, part 2... Gearlock Recovery Patches..."
 	echo "This won't take too long..."
 	echo ""
 	apply-gearlock-patches
+	echo "Building proprietary tools, part 3... FOSS Apps..."
+	echo "I know, I know..."
+	echo ""
+	grabFossProprietary
+
 }
 
 buildVariant() {
 	echo "Starting lunch command for: $1"
 	lunch $1
 	echo "Starting up the build... This may take a while..."
+	#~ mka gearlock
 	mka iso_img
 }
 
